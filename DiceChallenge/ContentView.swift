@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var dice = [Dice(sides: 6, amount: 3), Dice(sides: 6, amount: 4)]
+    @State private var dice = [Dice]()
     @State var total = 0
     @State private var results = [String]()
     @State private var editDice = false
@@ -65,6 +65,9 @@ struct ContentView: View {
                     .background(.black.opacity(0.7))
                     .clipShape(Capsule())
                 }
+            }
+            .sheet(isPresented: $editDice) {
+                EditDice(dice: $dice)
             }
         }
     }
