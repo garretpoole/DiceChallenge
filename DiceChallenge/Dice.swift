@@ -8,7 +8,7 @@
 import Foundation
 
 struct Dice: Codable, Identifiable {
-    let id = UUID()
+    var id = UUID()
     let sides: Int
-    let amount: Int
+    var amount: Int
 }
