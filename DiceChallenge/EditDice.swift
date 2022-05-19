@@ -9,14 +9,14 @@ import SwiftUI
 
 struct EditDice: View {
     @Environment(\.dismiss) var dismiss
-    @Binding var dice: [Dice]
+    @ObservedObject var diceModel: DiceViewModel
     @State private var sides = 0
     @State private var possibleSides = [4, 6, 8, 10, 12, 20]
     
     var body: some View {
         NavigationView {
             List {
-                if(dice.count < 5) {
+                if(diceModel.dice.count < 5) {
                     Section("Add Dice") {
                         Picker("Number of Sides", selection: $sides){
                             ForEach(possibleSides, id: \.self){
@@ -35,11 +35,11 @@ struct EditDice: View {
                 }
                 
                 Section {
-                    ForEach(0..<dice.count, id: \.self) { index in
+                    ForEach(0..<diceModel.dice.count, id: \.self) { index in
                         VStack(alignment: .leading) {
                             Text("Dice \(index+1)")
                                 .font(.headline)
-                            Text("\(dice[index].sides) Sides")
+                            Text("\(diceModel.dice[index].sides) Sides")
                                 .foregroundColor(.secondary)
                         }
                     }
@@ -59,12 +59,12 @@ struct EditDice: View {
     }
     
     func removeDice(at offsets: IndexSet) {
-        dice.remove(atOffsets: offsets)
+        diceModel.dice.remove(atOffsets: offsets)
     }
     
     func addDice() {
         let newDice = Dice(sides: sides, amount: Int.random(in: 1...sides))
-        dice.append(newDice)
+        diceModel.dice.append(newDice)
         sides = 0
     }
 }

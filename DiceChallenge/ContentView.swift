@@ -7,8 +7,12 @@
 
 import SwiftUI
 
+class DiceViewModel: ObservableObject {
+    @Published var dice = [Dice]()
+}
+
 struct ContentView: View {
-    @State private var dice = [Dice]()
+    @StateObject var diceModel = DiceViewModel()
     @State var total = 0
     @State private var results = [String]()
     @State private var editDice = false
@@ -22,7 +26,7 @@ struct ContentView: View {
                     .ignoresSafeArea()
                     .accessibilityHidden(true)
      
-                if(dice.isEmpty) {
+                if(diceModel.dice.isEmpty) {
                     Button {
                         editDice = true
                     } label: {
@@ -35,7 +39,7 @@ struct ContentView: View {
                     }
                 } else {
                     VStack {
-                        if(dice.count < 3) {
+                        if(diceModel.dice.count < 3) {
                             Spacer()
                         }
                         Text("TOTAL: \(total)")
@@ -44,7 +48,7 @@ struct ContentView: View {
                             .foregroundColor(.white)
                             .padding()
                         
-                        DiceView(dice: dice, total: $total)
+                        DiceView(diceModel: diceModel, total: $total)
                             .padding([.top], 20)
                         
                         Spacer()
@@ -67,7 +71,7 @@ struct ContentView: View {
                 }
             }
             .sheet(isPresented: $editDice) {
-                EditDice(dice: $dice)
+                EditDice(diceModel: diceModel)
             }
         }
     }

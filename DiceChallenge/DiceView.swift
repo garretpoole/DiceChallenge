@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct DiceView: View {
-    @State var dice: [Dice]
+    @ObservedObject var diceModel: DiceViewModel
     @State private var rolling = false
     @Binding var total: Int
     
     var body: some View {
         VStack {
             HStack {
-                ForEach(0..<min(dice.count, 2)) { index in
-                    Text("\(dice[index].amount)")
+                ForEach(0..<min(diceModel.dice.count, 2)) { index in
+                    Text("\(diceModel.dice[index].amount)")
                         .font(.largeTitle)
                         .padding()
                         .foregroundColor(.white)
@@ -29,8 +29,8 @@ struct DiceView: View {
             .padding(.vertical)
             
             HStack {
-                ForEach(min(2, dice.count)..<dice.count) { index in
-                    Text("\(dice[index].amount)")
+                ForEach(min(2, diceModel.dice.count)..<diceModel.dice.count) { index in
+                    Text("\(diceModel.dice[index].amount)")
                         .font(.largeTitle)
                         .padding()
                         .foregroundColor(.white)
@@ -52,9 +52,9 @@ struct DiceView: View {
     }
     func roll() {
         total = 0
-        for index in (0..<dice.count) {
-            let temp = Int.random(in: 1...dice[index].sides)
-            dice[index].amount = temp
+        for index in (0..<diceModel.dice.count) {
+            let temp = Int.random(in: 1...diceModel.dice[index].sides)
+            diceModel.dice[index].amount = temp
             total += temp
         }
         print("Rolling")
