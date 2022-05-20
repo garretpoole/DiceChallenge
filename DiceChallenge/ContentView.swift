@@ -32,6 +32,7 @@ struct ContentView: View {
                     .ignoresSafeArea()
                     .accessibilityHidden(true)
                 VStack {
+                    
                     if(diceModel.dice.isEmpty) {
                         Spacer ()
                         Button {
@@ -45,29 +46,26 @@ struct ContentView: View {
                                 .clipShape(Capsule())
                         }
                     } else {
-                        VStack {
-                            Spacer()
-                            Text("TOTAL: \(total)")
+                        Spacer()
+                        Text("TOTAL: \(total)")
+                            .font(.title)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.white)
+                            .padding()
+                        
+                        DiceView(diceModel: diceModel, total: $total)
+                            .padding([.top, .bottom], 20)
+                            .onTapGesture{
+                                feedback.notificationOccurred(.success)
+                                roll()
+                            }
+                        
+                        if(!rolling) {
+                            Text("Tap Dice to Roll!")
                                 .font(.title)
-                                .fontWeight(.semibold)
                                 .foregroundColor(.white)
                                 .padding()
-                            
-                            DiceView(diceModel: diceModel, total: $total)
-                                .padding([.top, .bottom], 20)
-                            
-                            if(!rolling) {
-                                Text("Tap to Roll!")
-                                    .font(.title)
-                                    .foregroundColor(.white)
-                                    .padding()
-                            }
-                            Spacer()
-                            
-                        }
-                        .onTapGesture{
-                            feedback.notificationOccurred(.success)
-                            roll()
+                                .padding([.top])
                         }
                             
                     }

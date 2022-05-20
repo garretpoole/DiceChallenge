@@ -12,7 +12,7 @@ struct DiceView: View {
     @State private var rolling = false
     @Binding var total: Int
     
-    @State private var twoRowGrid = [GridItem(.flexible(minimum: 60), spacing: 60), GridItem(.flexible())]
+    @State private var twoRowGrid = [GridItem(.flexible(minimum: 60), spacing: 75), GridItem(.flexible())]
     
     var body: some View {
         VStack {
