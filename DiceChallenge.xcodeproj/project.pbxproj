@@ -14,6 +14,7 @@
 		608712EA28340BFB0076A8FD /* Dice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 608712E928340BFB0076A8FD /* Dice.swift */; };
 		608712EC283455CE0076A8FD /* DiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 608712EB283455CE0076A8FD /* DiceView.swift */; };
 		608712F02834D0240076A8FD /* EditDice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 608712EF2834D0240076A8FD /* EditDice.swift */; };
+		60B5C9572837FE600018CE67 /* FileManager-DocumentsDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B5C9562837FE600018CE67 /* FileManager-DocumentsDirectory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		608712E928340BFB0076A8FD /* Dice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dice.swift; sourceTree = "<group>"; };
 		608712EB283455CE0076A8FD /* DiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceView.swift; sourceTree = "<group>"; };
 		608712EF2834D0240076A8FD /* EditDice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDice.swift; sourceTree = "<group>"; };
+		60B5C9562837FE600018CE67 /* FileManager-DocumentsDirectory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FileManager-DocumentsDirectory.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 				608712EF2834D0240076A8FD /* EditDice.swift */,
 				608712EB283455CE0076A8FD /* DiceView.swift */,
 				608712E928340BFB0076A8FD /* Dice.swift */,
+				60B5C9562837FE600018CE67 /* FileManager-DocumentsDirectory.swift */,
 				608712DF28306E8A0076A8FD /* Assets.xcassets */,
 				608712E128306E8A0076A8FD /* Preview Content */,
 			);
@@ -146,6 +149,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60B5C9572837FE600018CE67 /* FileManager-DocumentsDirectory.swift in Sources */,
 				608712DE28306E880076A8FD /* ContentView.swift in Sources */,
 				608712EC283455CE0076A8FD /* DiceView.swift in Sources */,
 				608712F02834D0240076A8FD /* EditDice.swift in Sources */,

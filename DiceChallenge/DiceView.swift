@@ -12,53 +12,43 @@ struct DiceView: View {
     @State private var rolling = false
     @Binding var total: Int
     
+    @State private var twoRowGrid = [GridItem(.flexible(minimum: 60), spacing: 60), GridItem(.flexible())]
+    
     var body: some View {
         VStack {
-            HStack {
-                ForEach(0..<min(diceModel.dice.count, 2)) { index in
-                    Text("\(diceModel.dice[index].amount)")
-                        .font(.largeTitle)
-                        .padding()
-                        .foregroundColor(.white)
-                        .background(.red.opacity(0.8))
-                        .clipShape(RoundedRectangle(cornerRadius: 15))
-                        .scaleEffect(1.5)
-                        .padding()
+            LazyHGrid(rows: twoRowGrid, alignment: .center) {
+                ForEach(diceModel.dice) { dice in
+                    ZStack {
+                        Rectangle()
+                            .frame(width: 100, height: 100)
+                            .foregroundColor(.red.opacity(0.8))
+                            .cornerRadius(16)
+                        Text("\(dice.amount)")
+                            .foregroundColor(.white)
+                            .font(.largeTitle)
+                            .scaleEffect(1.5)
+                    }
                 }
             }
-            .padding(.vertical)
             
-            HStack {
-                ForEach(min(2, diceModel.dice.count)..<diceModel.dice.count) { index in
-                    Text("\(diceModel.dice[index].amount)")
-                        .font(.largeTitle)
-                        .padding()
-                        .foregroundColor(.white)
-                        .background(.red.opacity(0.8))
-                        .clipShape(RoundedRectangle(cornerRadius: 15))
-                        .scaleEffect(1.5)
-                        .padding()
-                }
-            }
-            .padding(.bottom)
-            
-            if(!rolling) {
-                Text("Tap to Roll!")
-                    .font(.title)
-                    .foregroundColor(.white )
-            }
+//            if(!rolling) {
+//                Text("Tap to Roll!")
+//                    .font(.title)
+//                    .foregroundColor(.white )
+//            }
         }
-        .onTapGesture(perform: roll)
+//        .onTapGesture(perform: roll)
     }
-    func roll() {
-        total = 0
-        for index in (0..<diceModel.dice.count) {
-            let temp = Int.random(in: 1...diceModel.dice[index].sides)
-            diceModel.dice[index].amount = temp
-            total += temp
-        }
-        print("Rolling")
-    }
+//    func roll() {
+//        print(diceModel.dice.count)
+//        total = 0
+//        for index in (0..<diceModel.dice.count) {
+//            let temp = Int.random(in: 1...diceModel.dice[index].sides)
+//            diceModel.dice[index].amount = temp
+//            total += temp
+//        }
+//        print("Rolling")
+//    }
 }
 
 //struct DiceView_Previews: PreviewProvider {

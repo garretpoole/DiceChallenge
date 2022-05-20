@@ -14,8 +14,14 @@ class DiceViewModel: ObservableObject {
 struct ContentView: View {
     @StateObject var diceModel = DiceViewModel()
     @State var total = 0
-    @State private var results = [String]()
     @State private var editDice = false
+    //saving results
+    @State private var results = [String]()
+    let savePath = FileManager.documentsDirectory.appendingPathComponent("SavedTotals")
+    //haptic feedback
+    @State private var feedback = UINotificationFeedbackGenerator()
+    //for implementing timer showing dice roll
+    @State private var rolling = false
     
     var body: some View {
         NavigationView {
@@ -39,9 +45,7 @@ struct ContentView: View {
                     }
                 } else {
                     VStack {
-                        if(diceModel.dice.count < 3) {
-                            Spacer()
-                        }
+                        Spacer()
                         Text("TOTAL: \(total)")
                             .font(.title)
                             .fontWeight(.semibold)
@@ -49,10 +53,21 @@ struct ContentView: View {
                             .padding()
                         
                         DiceView(diceModel: diceModel, total: $total)
-                            .padding([.top], 20)
+                            .padding([.top, .bottom], 20)
+                        
+                        if(!rolling) {
+                            Text("Tap to Roll!")
+                                .font(.title)
+                                .foregroundColor(.white)
+                                .padding()
+                        }
                         
                         Spacer()
                         Spacer()
+                    }
+                    .onTapGesture{
+                        feedback.notificationOccurred(.success)
+                        roll()
                     }
                 }
             }
@@ -73,6 +88,42 @@ struct ContentView: View {
             .sheet(isPresented: $editDice) {
                 EditDice(diceModel: diceModel)
             }
+        }
+    }
+    
+    func roll() {
+        print(diceModel.dice.count)
+        total = 0
+        var result = ""
+        for index in (0..<diceModel.dice.count) {
+            let temp = Int.random(in: 1...diceModel.dice[index].sides)
+            diceModel.dice[index].amount = temp
+            total += temp
+            result.append("\(diceModel.dice[index].sides) ")
+        }
+        result.append(": \(total)")
+        results.append(result)
+        saveData()
+        print("Rolling")
+    }
+    
+    func loadData() {
+        do {
+            let data = try Data(contentsOf: savePath)
+            results = try JSONDecoder().decode([String].self, from: data)
+        } catch {
+            //no saved data
+            results = []
+        }
+    }
+    
+    func saveData() {
+        do {
+            let data = try JSONEncoder().encode(results)
+            //.completeFileProtection ensures files are stored with strong encryption
+            try data.write(to: savePath, options: [.atomicWrite, .completeFileProtection])
+        } catch {
+            print("Unable to save data")
         }
     }
 }

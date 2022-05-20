@@ -18,11 +18,13 @@ struct EditDice: View {
             List {
                 if(diceModel.dice.count < 5) {
                     Section("Add Dice") {
+                        Text("Number of Sides")
                         Picker("Number of Sides", selection: $sides){
                             ForEach(possibleSides, id: \.self){
                                 Text("\($0)")
                             }
                         }
+                        .pickerStyle(SegmentedPickerStyle())
                         Button("Add Dice", action: addDice)
                             .disabled(sides == 0)
                     }
@@ -65,7 +67,6 @@ struct EditDice: View {
     func addDice() {
         let newDice = Dice(sides: sides, amount: Int.random(in: 1...sides))
         diceModel.dice.append(newDice)
-        sides = 0
     }
 }
 
