@@ -31,45 +31,58 @@ struct ContentView: View {
                     .scaledToFill()
                     .ignoresSafeArea()
                     .accessibilityHidden(true)
-     
-                if(diceModel.dice.isEmpty) {
-                    Button {
-                        editDice = true
-                    } label: {
-                        Text("Add Dice")
-                            .font(.title)
-                            .padding()
-                            .background(.red.opacity(0.7))
-                            .foregroundColor(.black)
-                            .clipShape(Capsule())
-                    }
-                } else {
-                    VStack {
-                        Spacer()
-                        Text("TOTAL: \(total)")
-                            .font(.title)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.white)
-                            .padding()
-                        
-                        DiceView(diceModel: diceModel, total: $total)
-                            .padding([.top, .bottom], 20)
-                        
-                        if(!rolling) {
-                            Text("Tap to Roll!")
+                VStack {
+                    if(diceModel.dice.isEmpty) {
+                        Spacer ()
+                        Button {
+                            editDice = true
+                        } label: {
+                            Text("Add Dice")
                                 .font(.title)
+                                .padding()
+                                .background(.red.opacity(0.7))
+                                .foregroundColor(.white)
+                                .clipShape(Capsule())
+                        }
+                    } else {
+                        VStack {
+                            Spacer()
+                            Text("TOTAL: \(total)")
+                                .font(.title)
+                                .fontWeight(.semibold)
                                 .foregroundColor(.white)
                                 .padding()
+                            
+                            DiceView(diceModel: diceModel, total: $total)
+                                .padding([.top, .bottom], 20)
+                            
+                            if(!rolling) {
+                                Text("Tap to Roll!")
+                                    .font(.title)
+                                    .foregroundColor(.white)
+                                    .padding()
+                            }
+                            Spacer()
+                            
                         }
-                        
-                        Spacer()
-                        Spacer()
+                        .onTapGesture{
+                            feedback.notificationOccurred(.success)
+                            roll()
+                        }
+                            
                     }
-                    .onTapGesture{
-                        feedback.notificationOccurred(.success)
-                        roll()
+                    
+                    NavigationLink {
+                        ResultView(results: results)
+                    } label: {
+                        Text("Previous Rolls")
+                            .font(.headline)
+                            .foregroundColor(.white)
                     }
+                    Spacer()
+                    Spacer()
                 }
+                
             }
             .toolbar {
                 Button {
@@ -88,6 +101,7 @@ struct ContentView: View {
             .sheet(isPresented: $editDice) {
                 EditDice(diceModel: diceModel)
             }
+            .onAppear(perform: loadData)
         }
     }
     
